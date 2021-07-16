@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link rel="stylesheet" href="../CSS/dangky.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+  <title>Quên Mật Khẩu</title>
+</head>
+
+<body ng-app="app">
+  <div class="container" ng-controller="quenpass">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Đổi Mật Khẩu</h5>
+            <form class="form-signin">
+              <div class="form-label-group">
+                <input type="text" ng-model="student.username" id="inputUser" class="form-control"
+                  placeholder="Username" required autofocus />
+                <label for="inputUser">Tài Khoản</label>
+              </div>
+
+              <div class="form-label-group">
+                <input type="password" ng-model="currentpass" id="password" class="form-control" placeholder="currentpass" required autofocus>
+                <label for="password">Mật khẩu hiện tại</label>
+                <small class="form-text text-muted">*bắt buộc</small>
+              </div>
+              <div class="form-label-group">
+                <input type="password" ng-model="newpass" id="newpassword" class="form-control" placeholder="newpass" required autofocus>
+                <label for="newpassword">Mật khẩu mới</label>
+                <small class="form-text text-muted">*bắt buộc</small>
+              </div>
+              <div class="form-label-group">
+                <input type="password" id="confirmpassword" ng-model="confpass" class="form-control" placeholder="currentpass" required
+                  autofocus>
+                <label for="confirmpassword">Xác Nhận Mật Khẩu</label>
+                <small class="form-text text-muted">*xác nhật mật khẩu phải trùng khớp mật khẩu mới</small>
+              </div>
+              <hr>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" ng-click="doipass()">Xác Nhận</button>
+              <a href="index.html"> <small class="form-text text-center">Trang chủ</small></a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="../JS/db/Students.js"></script>
+<script>
+  var app = angular.module("app", []);
+  app.controller("quenpass", function ($scope) {
+    var item = sessionStorage.getItem("user");
+    var usersess = JSON.parse(item);
+    $scope.student = angular.copy(usersess)
+    $scope.doipass = function () {
+      for (var i = 0; i < Students.length; i++) {
+        if($scope.currentpass==Students[i].password){
+          if($scope.confpass==$scope.newpass){
+            if ($scope.student.username == Students[i].username) {
+          console.log("Trước");
+          console.log(Students[i].password);
+          Students[i].password = angular.copy($scope.newpass);
+          console.log("Sau");
+          console.log(Students[i].password);
+          alert("Đổi Mật Khẩu Thành Công!");
+        }
+          }else{
+            alert("Mật Khẩu Mới Không Khớp với Xác Nhận Mật Khẩu");
+            break;
+          }
+         
+        }
+        else{
+          alert("Mật Khẩu Hiện Tại Không Trùng Khớp");
+          break;
+        }
+      
+      }
+    }
+  })
+</script>
+
+</html>
